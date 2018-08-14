@@ -11,10 +11,28 @@ Please create a simple "Hello World" API. Meaning:
 
 ## The Plan:
 
-1. Include configuration settings for both development and production environments
-2. Allow connections over both HTTP and HTTPS
-3. Use ports 3000 and 3001 for development environment and 5000 and 5001 for production
-4. Create two routes; `/hello` and `notFound`
-5. `/hello` route should return HTTP status code 200 and a payload containing a welcome message
-6. If a query string in the form `?name=foo` is sent to `/hello`, a personalised message should be returned along with code 200
-7. Requests to all other routes should return HTTP status code 404
+1. Include configuration settings for both development and production environments.
+2. Use port 3000 for the development environment and 5000 for production.
+3. Create two routes; `/hello` and `notFound`.
+4. `/hello` route should return HTTP status code 200 and a payload containing a welcome message in JSON format
+5. If a query string in the form `?name=foo` is sent to `/hello` a personalised message should be returned, else a generic message should be returned.
+6. Requests to all other routes should return HTTP status code 404.
+
+## Testing:
+
+1. Starting the server
+- `NODE_ENV=development node index.js` - Server starts on port 3000
+- `NODE_ENV=production node index.js`  - Server starts on port 5000
+- `node index.js`                      - Server starts on port 3000 by default
+
+2. Making requests (development mode)
+- GET or POST request to `localhost:3000/hello` - Returns status code 200 and { "welcome": "Welcome stranger!" }
+- GET or POST request to `localhost:3000/foo` - Returns status code 404 and { "error": "404 Not Found" }
+- GET or POST request to `localhost:3000/hello/foo` - Returns status code 404 and { "error": "404 Not Found" }
+- GET or POST request to `localhost:3000/hello?name=Grace Hopper` - Returns status code 200 and { "welcome": "Welcome Grace Hopper!" }
+- GET or POST request to `localhost:3000/foo?name=Grace Hopper` - Returns status code 404 and { "error": "404 Not Found" }
+- GET or POST request to `localhost:3000/hello?name=Grace Hopper&rank=Rear admiral` - Returns status code 200 and { "welcome": "Welcome Grace Hopper!" }
+
+3. Repeat above tests in production mode
+
+**All above tests pass.**
